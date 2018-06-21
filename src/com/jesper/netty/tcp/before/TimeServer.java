@@ -1,4 +1,4 @@
-package com.jesper.netty.basic;
+package com.jesper.netty.tcp.before;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
