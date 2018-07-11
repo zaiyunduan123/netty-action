@@ -11,14 +11,20 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Netty消息解码类
+ */
 public class NettyMessageDecoder extends LengthFieldBasedFrameDecoder {
 
     MarshallingDecoder marshallingDecoder;
 
     public NettyMessageDecoder(int maxFrameLength, int lengthFieldOffset,
 	    int lengthFieldLength) throws IOException {
-	super(maxFrameLength, lengthFieldOffset, lengthFieldLength);
-	marshallingDecoder = new MarshallingDecoder();
+		/**
+		 * 使用netty的LengthFieldBasedFrameDecoder解码器，它支持自动的tcp粘包和半包处理，只需要传入消息长度的字段偏移量和字节数
+		 */
+		super(maxFrameLength, lengthFieldOffset, lengthFieldLength);
+	   marshallingDecoder = new MarshallingDecoder();
     }
 
     @Override

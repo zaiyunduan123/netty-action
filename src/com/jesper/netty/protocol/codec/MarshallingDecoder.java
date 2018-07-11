@@ -9,7 +9,9 @@ import java.io.StreamCorruptedException;
 import org.jboss.marshalling.ByteInput;
 import org.jboss.marshalling.Unmarshaller;
 
-
+/**
+ * Netty消息解码工具类
+ */
 public class MarshallingDecoder {
 
     private final Unmarshaller unmarshaller;

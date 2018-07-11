@@ -8,7 +8,9 @@ import java.io.IOException;
 
 import org.jboss.marshalling.Marshaller;
 
-
+/**
+ * Netty消息编码工具类
+ */
 @Sharable
 public class MarshallingEncoder {
 

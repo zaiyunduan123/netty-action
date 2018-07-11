@@ -1,9 +1,8 @@
 package com.jesper.netty.protocol.struct;
-
-
-
 /**
  * Created by jiangyunxiong on 2018/6/23.
+ *
+ *  数据结构定义：心跳消息、握手请求和握手应答消息统一由NettyMessage承载
  */
 public final class NettyMessage {
 

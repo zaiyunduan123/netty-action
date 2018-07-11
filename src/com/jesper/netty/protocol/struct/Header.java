@@ -5,6 +5,8 @@ import java.util.Map;
 
 /**
  * Created by jiangyunxiong on 2018/6/23.
+ *
+ * 消息头定义
  */
 public final class Header {
 

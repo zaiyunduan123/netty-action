@@ -5,12 +5,12 @@ import com.jesper.netty.protocol.struct.NettyMessage;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
-
 import java.io.IOException;
 import java.util.Map;
 
-
-
+/**
+ * Netty消息编码类
+ */
 public final class NettyMessageEncoder extends
 		MessageToByteEncoder<NettyMessage> {
 
