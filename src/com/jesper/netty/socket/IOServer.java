@@ -1,4 +1,4 @@
-package com.jesper.netty.weichat;
+package com.jesper.netty.socket;
 
 import java.io.IOException;
 import java.io.InputStream;
