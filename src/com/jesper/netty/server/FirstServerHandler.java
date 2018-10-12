@@ -22,7 +22,7 @@ public class FirstServerHandler  extends ChannelInboundHandlerAdapter {
     }
 
     private ByteBuf getByteBuf(ChannelHandlerContext ctx) {
-        byte[] bytes = "你好，欢迎关注我的微信公众号，《闪电侠的博客》!".getBytes(Charset.forName("utf-8"));
+        byte[] bytes = "jesper-client,hello".getBytes(Charset.forName("utf-8"));
 
         ByteBuf buffer = ctx.alloc().buffer();
 

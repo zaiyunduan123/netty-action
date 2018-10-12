@@ -33,7 +33,7 @@ public class FirstClientHandler extends ChannelInboundHandlerAdapter{
         ByteBuf buffer = ctx.alloc().buffer();
 
         //2. 准备数据，指定字符串的字符集 utf-8
-        byte[] bytes = "hello,jesper".getBytes(Charset.forName("utf-8"));
+        byte[] bytes = "jesper-client,hello".getBytes(Charset.forName("utf-8"));
 
         //3. 把字符串的二进制数据填充到 ByteBuf
         buffer.writeBytes(bytes);
