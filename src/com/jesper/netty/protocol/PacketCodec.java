@@ -10,7 +10,7 @@ import java.util.Map;
 
 import static com.jesper.netty.protocol.Command.LOGIN_REQUEST;
 
-public class PacketCodeC {
+public class PacketCodec {
 
     private static final int MAGIC_NUMBER = 0x12345678;
     private static final Map<Byte, Class<? extends Packet>> packetTypeMap;
