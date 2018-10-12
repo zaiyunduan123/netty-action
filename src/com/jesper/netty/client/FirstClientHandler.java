@@ -23,7 +23,7 @@ public class FirstClientHandler extends ChannelInboundHandlerAdapter{
         //1. 获取数据
         ByteBuf buffer = getByteBuf(ctx);
 
-        //2. 写数据
+        //2. ctx.channel().writeAndFlush() 把数据写到服务端
         ctx.channel().writeAndFlush(buffer);
     }
 
