@@ -1,9 +1,11 @@
-package com.jesper.netty.netty;
+package com.jesper.netty.client;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelInitializer;
+import io.netty.channel.ChannelOption;
 import io.netty.channel.nio.NioEventLoopGroup;
+import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.string.StringEncoder;
 
@@ -16,26 +18,23 @@ public class NettyClient {
     private static final String HOST = "127.0.0.1";
     private static final int PORT = 8000;
 
+    public static void main(String[] args) {
+        NioEventLoopGroup workerGroup = new NioEventLoopGroup();
 
-    public static void main(String[] args) throws InterruptedException {
         Bootstrap bootstrap = new Bootstrap();
-        NioEventLoopGroup group = new NioEventLoopGroup();
-
         bootstrap
-                //1、指定线程模型
-                .group(group)
-                //2、指定IO类型为NIO
+                .group(workerGroup)
                 .channel(NioSocketChannel.class)
-                //3、IO逻辑处理
-                .handler(new ChannelInitializer<Channel>() {
+                .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 5000)
+                .option(ChannelOption.SO_KEEPALIVE, true)
+                .option(ChannelOption.TCP_NODELAY, true)
+                .handler(new ChannelInitializer<SocketChannel>() {
                     @Override
-                    protected void initChannel(Channel ch) {
-                        ch.pipeline().addLast(new StringEncoder());
+                    public void initChannel(SocketChannel ch) {
+                        ch.pipeline().addLast(new FirstClientHandler());
                     }
                 });
 
-
-        // 4.建立连接
         connect(bootstrap, HOST, PORT, MAX_RETRY);
     }
 
