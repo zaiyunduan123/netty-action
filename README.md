@@ -1,5 +1,13 @@
 
-## netty学习代码
-1. 基于 ByteToMessageDecoder，实现自定义解码，而不用关心 ByteBuf 的强转和 解码结果的传递。
-2. 基于 SimpleChannelInboundHandler，实现每一种指令的处理，不再需要强转，不再有冗长乏味的 if else 逻辑，不需要手动传递对象。
-3. 基于 MessageToByteEncoder，实现自定义编码，而不用关心 ByteBuf 的创建，不用每次向对端写 Java 对象都进行一次编码。
+## 为什么会有粘包半包现象？
+1. 尽管我们的应用层是按照 ByteBuf 为 单位来发送数据，但是到了底层操作系统仍然是按照字节流发送数据，因此，数据到了服务端，也是按照字节流的方式读入
+2. 然后到了 Netty 应用层面，重新拼装成 ByteBuf，而这里的 ByteBuf 与客户端按顺序发送的 ByteBuf 可能是不对等的，所以会有粘包半包现象
+
+## 解决
+不断从 TCP 缓冲区中读取数据，每次读取完都需要判断是否是一个完整的数据包
+
+## Netty 自带的拆包器
+1. 固定长度的拆包器 FixedLengthFrameDecoder
+2. 行拆包器 LineBasedFrameDecoder
+3. 分隔符拆包器 DelimiterBasedFrameDecoder
+4. 基于长度域拆包器 LengthFieldBasedFrameDecoder
