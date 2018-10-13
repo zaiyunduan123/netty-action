@@ -1,5 +1,11 @@
 package com.jesper.netty.server;
 
+import com.jesper.netty.server.handler.inbound.InBoundHandlerA;
+import com.jesper.netty.server.handler.inbound.InBoundHandlerB;
+import com.jesper.netty.server.handler.inbound.InBoundHandlerC;
+import com.jesper.netty.server.handler.outbound.OutBoundHandlerA;
+import com.jesper.netty.server.handler.outbound.OutBoundHandlerB;
+import com.jesper.netty.server.handler.outbound.OutBoundHandlerC;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
@@ -27,7 +33,15 @@ public class NettyServer {
                 .childOption(ChannelOption.TCP_NODELAY, true)
                 .childHandler(new ChannelInitializer<NioSocketChannel>() {
                     protected void initChannel(NioSocketChannel ch) {
-                        ch.pipeline().addLast(new ServerHandler());
+                        // inBound, 处理读数据的逻辑链
+                        ch.pipeline().addLast(new InBoundHandlerA());
+                        ch.pipeline().addLast(new InBoundHandlerB());
+                        ch.pipeline().addLast(new InBoundHandlerC());
+
+                        // outBound，处理写数据的逻辑链
+                        ch.pipeline().addLast(new OutBoundHandlerA());
+                        ch.pipeline().addLast(new OutBoundHandlerB());
+                        ch.pipeline().addLast(new OutBoundHandlerC());
                     }
                 });
 
