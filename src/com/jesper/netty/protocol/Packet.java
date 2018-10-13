@@ -2,6 +2,8 @@ package com.jesper.netty.protocol;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import lombok.Data;
+
+@Data
 public abstract class Packet {
 
     /**
@@ -10,13 +12,7 @@ public abstract class Packet {
     @JSONField(deserialize = false, serialize = false)
     private Byte version = 1;
 
-    public Byte getVersion() {
-        return version;
-    }
 
-    public void setVersion(Byte version) {
-        this.version = version;
-    }
 
     /**
      * 数据内容

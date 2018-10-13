@@ -2,7 +2,11 @@ package com.jesper.netty.protocol.request;
 
 
 import com.jesper.netty.protocol.Packet;
+import lombok.Data;
 
+import static com.jesper.netty.protocol.command.Command.LOGIN_REQUEST;
+
+@Data
 public class LoginRequestPacket extends Packet {
 
     private String userId;
@@ -11,32 +15,10 @@ public class LoginRequestPacket extends Packet {
 
     private String password;
 
-    public String getUserId() {
-        return userId;
-    }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 
     @Override
     public Byte getCommand() {
-        return null;
+        return LOGIN_REQUEST;
     }
 }

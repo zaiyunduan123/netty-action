@@ -1,6 +1,7 @@
 package com.jesper.netty.protocol;
 
 import com.jesper.netty.protocol.request.LoginRequestPacket;
+import com.jesper.netty.protocol.response.LoginResponsePacket;
 import com.jesper.netty.serialize.Serializer;
 import com.jesper.netty.serialize.impl.JSONSerializer;
 import io.netty.buffer.ByteBuf;
@@ -10,6 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.jesper.netty.protocol.command.Command.LOGIN_REQUEST;
+import static com.jesper.netty.protocol.command.Command.LOGIN_RESPONSE;
 
 public class PacketCodec {
 
@@ -23,6 +25,8 @@ public class PacketCodec {
     static {
         packetTypeMap = new HashMap<>();
         packetTypeMap.put(LOGIN_REQUEST, LoginRequestPacket.class);
+        packetTypeMap.put(LOGIN_RESPONSE, LoginResponsePacket.class);
+
         serializerMap = new HashMap<>();
         JSONSerializer serializer = new JSONSerializer();
         serializerMap.put(serializer.getSerializerAlgorithm(), serializer);
@@ -39,6 +43,7 @@ public class PacketCodec {
 
         //2. 序列化 java对象
         byte[] bytes = Serializer.DEFAULT.serialize(packet);
+
 
         //3. 实际编码过程
         byteBuf.writeInt(MAGIC_NUMBER);
