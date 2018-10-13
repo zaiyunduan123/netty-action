@@ -1,5 +1,9 @@
 package com.jesper.netty.client;
 
+import com.jesper.netty.client.handler.LoginResponseHandler;
+import com.jesper.netty.client.handler.MessageResponseHandler;
+import com.jesper.netty.codec.PacketDecoder;
+import com.jesper.netty.codec.PacketEncoder;
 import com.jesper.netty.protocol.PacketCodec;
 import com.jesper.netty.protocol.request.MessageRequestPacket;
 import com.jesper.netty.util.LoginUtil;
@@ -33,7 +37,11 @@ public class NettyClient {
                 .handler(new ChannelInitializer<SocketChannel>() {
                     @Override
                     public void initChannel(SocketChannel ch) {
-                        ch.pipeline().addLast(new ClientHandler());
+
+                        ch.pipeline().addLast(new PacketDecoder());
+                        ch.pipeline().addLast(new LoginResponseHandler());
+                        ch.pipeline().addLast(new MessageResponseHandler());
+                        ch.pipeline().addLast(new PacketEncoder());
                     }
                 });
 
@@ -71,8 +79,7 @@ public class NettyClient {
 
                     MessageRequestPacket packet = new MessageRequestPacket();
                     packet.setMessage(line);
-                    ByteBuf byteBuf = PacketCodec.INSTANCE.encode(channel.alloc(), packet);
-                    channel.writeAndFlush(byteBuf);
+                    channel.writeAndFlush(packet);
                 }
             }
         }).start();

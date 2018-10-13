@@ -1,5 +1,9 @@
 package com.jesper.netty.server;
 
+import com.jesper.netty.codec.PacketDecoder;
+import com.jesper.netty.codec.PacketEncoder;
+import com.jesper.netty.server.handler.LoginRequestHandler;
+import com.jesper.netty.server.handler.MessageRequestHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
@@ -27,7 +31,11 @@ public class NettyServer {
                 .childOption(ChannelOption.TCP_NODELAY, true)
                 .childHandler(new ChannelInitializer<NioSocketChannel>() {
                     protected void initChannel(NioSocketChannel ch) {
-                        ch.pipeline().addLast(new ServerHandler());
+                        // 解码、逻辑处理、编码，每个由专门的类来处理
+                        ch.pipeline().addLast(new PacketDecoder());
+                        ch.pipeline().addLast(new LoginRequestHandler());
+                        ch.pipeline().addLast(new MessageRequestHandler());
+                        ch.pipeline().addLast(new PacketEncoder());
                     }
                 });
 
