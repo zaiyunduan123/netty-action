@@ -1,7 +1,9 @@
 package com.jesper.netty.protocol;
 
 import com.jesper.netty.protocol.request.LoginRequestPacket;
+import com.jesper.netty.protocol.request.MessageRequestPacket;
 import com.jesper.netty.protocol.response.LoginResponsePacket;
+import com.jesper.netty.protocol.response.MessageResponsePacket;
 import com.jesper.netty.serialize.Serializer;
 import com.jesper.netty.serialize.impl.JSONSerializer;
 import io.netty.buffer.ByteBuf;
@@ -10,8 +12,7 @@ import io.netty.buffer.ByteBufAllocator;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.jesper.netty.protocol.command.Command.LOGIN_REQUEST;
-import static com.jesper.netty.protocol.command.Command.LOGIN_RESPONSE;
+import static com.jesper.netty.protocol.command.Command.*;
 
 public class PacketCodec {
 
@@ -26,6 +27,8 @@ public class PacketCodec {
         packetTypeMap = new HashMap<>();
         packetTypeMap.put(LOGIN_REQUEST, LoginRequestPacket.class);
         packetTypeMap.put(LOGIN_RESPONSE, LoginResponsePacket.class);
+        packetTypeMap.put(MESSAGE_REQUEST, MessageRequestPacket.class);
+        packetTypeMap.put(MESSAGE_RESPONSE, MessageResponsePacket.class);
 
         serializerMap = new HashMap<>();
         JSONSerializer serializer = new JSONSerializer();
