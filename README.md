@@ -1,13 +1,11 @@
 
-## 为什么会有粘包半包现象？
-1. 尽管我们的应用层是按照 ByteBuf 为 单位来发送数据，但是到了底层操作系统仍然是按照字节流发送数据，因此，数据到了服务端，也是按照字节流的方式读入
-2. 然后到了 Netty 应用层面，重新拼装成 ByteBuf，而这里的 ByteBuf 与客户端按顺序发送的 ByteBuf 可能是不对等的，所以会有粘包半包现象
+## channelHandler 的生命周期
+1. handlerAdded() 与 handlerRemoved()
+这两个方法通常可以用在一些资源的申请和释放
 
-## 解决
-不断从 TCP 缓冲区中读取数据，每次读取完都需要判断是否是一个完整的数据包
+2. channelActive() 与 channelInActive()
+对我们的应用程序来说，这两个方法表明的含义是 TCP 连接的建立与释放，通常我们在这两个回调里面统计单机的连接数，channelActive() 被调用，连接数加一，channelInActive() 被调用，连接数减一
+另外，也可以在 channelActive() 方法中，实现对客户端连接 ip 黑白名单的过滤
 
-## Netty 自带的拆包器
-1. 固定长度的拆包器 FixedLengthFrameDecoder
-2. 行拆包器 LineBasedFrameDecoder
-3. 分隔符拆包器 DelimiterBasedFrameDecoder
-4. 基于长度域拆包器 LengthFieldBasedFrameDecoder
+3. channelRead()
+服务端根据自定义协议来进行拆包在这个方法里面，每次读到一定的数据，都会累加到一个容器里面，然后判断是否能够拆出来一个完整的数据包，如果够的话就拆了之后，往下进行传递

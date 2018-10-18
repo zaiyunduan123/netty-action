@@ -4,6 +4,7 @@ import com.jesper.netty.codec.PacketDecoder;
 import com.jesper.netty.codec.PacketEncoder;
 import com.jesper.netty.codec.Spliter;
 import com.jesper.netty.server.handler.FirstServerHandler;
+import com.jesper.netty.server.handler.LifeCyCleTestHandler;
 import com.jesper.netty.server.handler.LoginRequestHandler;
 import com.jesper.netty.server.handler.MessageRequestHandler;
 import io.netty.bootstrap.ServerBootstrap;
@@ -35,7 +36,7 @@ public class NettyServer {
                 .childHandler(new ChannelInitializer<NioSocketChannel>() {
                     protected void initChannel(NioSocketChannel ch) {
 
-
+                        ch.pipeline().addLast(new LifeCyCleTestHandler());
                         ch.pipeline().addLast(new FirstServerHandler());
                         ch.pipeline().addLast(new LengthFieldBasedFrameDecoder(Integer.MAX_VALUE, 7, 4));
                         // 解码、逻辑处理、编码，每个由专门的类来处理
