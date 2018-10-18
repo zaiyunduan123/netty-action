@@ -5,6 +5,7 @@ import com.jesper.netty.client.handler.LoginResponseHandler;
 import com.jesper.netty.client.handler.MessageResponseHandler;
 import com.jesper.netty.codec.PacketDecoder;
 import com.jesper.netty.codec.PacketEncoder;
+import com.jesper.netty.codec.Spliter;
 import com.jesper.netty.protocol.PacketCodec;
 import com.jesper.netty.protocol.request.MessageRequestPacket;
 import com.jesper.netty.util.LoginUtil;
@@ -42,7 +43,7 @@ public class NettyClient {
 
                         ch.pipeline().addLast(new FirstClientHandler());
                         ch.pipeline().addLast(new LengthFieldBasedFrameDecoder(Integer.MAX_VALUE, 7, 4));
-
+                        ch.pipeline().addLast(new Spliter());
                         ch.pipeline().addLast(new PacketDecoder());
                         ch.pipeline().addLast(new LoginResponseHandler());
                         ch.pipeline().addLast(new MessageResponseHandler());
