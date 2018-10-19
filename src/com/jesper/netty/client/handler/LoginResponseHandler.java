@@ -30,7 +30,7 @@ public class LoginResponseHandler extends SimpleChannelInboundHandler<LoginRespo
         //编码这里也不需要了
 
         // 调用 writeAndFlush() 就能把loginRequestPacket写到服务端
-        ctx.channel().writeAndFlush(loginRequestPacket);
+//        ctx.channel().writeAndFlush(loginRequestPacket);
     }
 
     @Override
