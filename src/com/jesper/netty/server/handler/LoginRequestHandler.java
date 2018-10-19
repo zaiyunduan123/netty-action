@@ -2,6 +2,7 @@ package com.jesper.netty.server.handler;
 
 import com.jesper.netty.protocol.request.LoginRequestPacket;
 import com.jesper.netty.protocol.response.LoginResponsePacket;
+import com.jesper.netty.util.LoginUtil;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
@@ -20,6 +21,9 @@ public class LoginRequestHandler extends SimpleChannelInboundHandler<LoginReques
         if (valid(loginRequestPacket)) {
             loginResponsePacket.setSuccess(true);
             System.out.println(new Date() + ": 登录成功!");
+            // 登陆成功后加标记
+            LoginUtil.markAsLogin(channelHandlerContext.channel());
+
         } else {
             loginResponsePacket.setReason("账号密码校验失败");
             loginResponsePacket.setSuccess(false);

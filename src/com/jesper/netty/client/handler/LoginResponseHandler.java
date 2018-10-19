@@ -19,7 +19,6 @@ public class LoginResponseHandler extends SimpleChannelInboundHandler<LoginRespo
      */
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        System.out.println(new Date() + ": 客户端开始登录");
 
         // 创建登录对象
         LoginRequestPacket loginRequestPacket = new LoginRequestPacket();
@@ -28,9 +27,8 @@ public class LoginResponseHandler extends SimpleChannelInboundHandler<LoginRespo
         loginRequestPacket.setPassword("abc");
 
         //编码这里也不需要了
-
         // 调用 writeAndFlush() 就能把loginRequestPacket写到服务端
-//        ctx.channel().writeAndFlush(loginRequestPacket);
+        ctx.channel().writeAndFlush(loginRequestPacket);
     }
 
     @Override

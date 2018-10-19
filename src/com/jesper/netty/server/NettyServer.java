@@ -19,7 +19,7 @@ import java.util.Date;
 
 public class NettyServer {
 
-    private static final int PORT = 8000;
+    private static final int PORT = 8089;
 
     public static void main(String[] args) {
         NioEventLoopGroup boosGroup = new NioEventLoopGroup();
