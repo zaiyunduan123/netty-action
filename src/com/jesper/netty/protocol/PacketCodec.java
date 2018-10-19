@@ -41,13 +41,10 @@ public class PacketCodec {
      * @return
      */
     public ByteBuf encode(ByteBuf byteBuf, Packet packet){
-
-
-        //2. 序列化 java对象
+        //1. 序列化 java对象
         byte[] bytes = Serializer.DEFAULT.serialize(packet);
 
-
-        //3. 实际编码过程
+        //2. 实际编码过程
         byteBuf.writeInt(MAGIC_NUMBER);
         byteBuf.writeByte(packet.getVersion());
         byteBuf.writeByte(Serializer.DEFAULT.getSerializerAlgorithm());

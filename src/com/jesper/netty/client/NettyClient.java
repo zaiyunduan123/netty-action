@@ -1,16 +1,13 @@
 package com.jesper.netty.client;
 
-import com.jesper.netty.client.handler.FirstClientHandler;
 import com.jesper.netty.client.handler.LoginResponseHandler;
 import com.jesper.netty.client.handler.MessageResponseHandler;
 import com.jesper.netty.codec.PacketDecoder;
 import com.jesper.netty.codec.PacketEncoder;
 import com.jesper.netty.codec.Spliter;
-import com.jesper.netty.protocol.PacketCodec;
 import com.jesper.netty.protocol.request.MessageRequestPacket;
 import com.jesper.netty.util.LoginUtil;
 import io.netty.bootstrap.Bootstrap;
-import io.netty.buffer.ByteBuf;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
@@ -40,9 +37,6 @@ public class NettyClient {
                 .handler(new ChannelInitializer<SocketChannel>() {
                     @Override
                     public void initChannel(SocketChannel ch) {
-
-                        ch.pipeline().addLast(new FirstClientHandler());
-                        ch.pipeline().addLast(new LengthFieldBasedFrameDecoder(Integer.MAX_VALUE, 7, 4));
                         ch.pipeline().addLast(new Spliter());
                         ch.pipeline().addLast(new PacketDecoder());
                         ch.pipeline().addLast(new LoginResponseHandler());
@@ -78,7 +72,7 @@ public class NettyClient {
     public static void startConsoleThread(Channel channel) {
         new Thread(() -> {
             while (!Thread.interrupted()) {
-                if (LoginUtil.hasLogin(channel)) {
+//                if (LoginUtil.hasLogin(channel)) {
                     System.out.println("输入消息发送到服务端：");
                     Scanner sc = new Scanner(System.in);
                     String line = sc.nextLine();
@@ -86,7 +80,7 @@ public class NettyClient {
                     MessageRequestPacket packet = new MessageRequestPacket();
                     packet.setMessage(line);
                     channel.writeAndFlush(packet);
-                }
+//                }
             }
         }).start();
     }

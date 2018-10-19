@@ -11,10 +11,9 @@ public class LoginRequestHandler extends SimpleChannelInboundHandler<LoginReques
 
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, LoginRequestPacket loginRequestPacket) throws Exception {
-
+        System.out.println(new Date() + ": 收到客户端登录请求……");
         // 登录流程
         LoginResponsePacket loginResponsePacket = new LoginResponsePacket();
-
         loginResponsePacket.setVersion(loginRequestPacket.getVersion());
 
         // 登录校验
