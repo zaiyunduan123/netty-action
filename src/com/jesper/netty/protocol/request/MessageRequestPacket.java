@@ -10,12 +10,13 @@ import static com.jesper.netty.protocol.command.Command.MESSAGE_REQUEST;
 @NoArgsConstructor
 public class MessageRequestPacket extends Packet{
 
-    private String message;
+    private String toUserId;//表示要发送给哪个用户
+    private String message;//表示具体内容
 
-    public MessageRequestPacket(String message) {
+    public MessageRequestPacket(String toUserId, String message) {
+        this.toUserId = toUserId;
         this.message = message;
     }
-
     @Override
     public Byte getCommand() {
         return MESSAGE_REQUEST;

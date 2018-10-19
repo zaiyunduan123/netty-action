@@ -2,7 +2,8 @@ package com.jesper.netty.client.handler;
 
 import com.jesper.netty.protocol.request.LoginRequestPacket;
 import com.jesper.netty.protocol.response.LoginResponsePacket;
-import com.jesper.netty.util.LoginUtil;
+import com.jesper.netty.session.Session;
+import com.jesper.netty.util.SessionUtil;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
@@ -11,33 +12,17 @@ import java.util.UUID;
 
 public class LoginResponseHandler extends SimpleChannelInboundHandler<LoginResponsePacket> {
 
-    /**
-     * 给服务端传数据
-     *
-     * @param ctx
-     * @throws Exception
-     */
-    @Override
-    public void channelActive(ChannelHandlerContext ctx) throws Exception {
 
-        // 创建登录对象
-        LoginRequestPacket loginRequestPacket = new LoginRequestPacket();
-        loginRequestPacket.setUserId(UUID.randomUUID().toString());
-        loginRequestPacket.setUsername("jesper");
-        loginRequestPacket.setPassword("abc");
-
-        //编码这里也不需要了
-        // 调用 writeAndFlush() 就能把loginRequestPacket写到服务端
-        ctx.channel().writeAndFlush(loginRequestPacket);
-    }
 
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, LoginResponsePacket loginResponsePacket) throws Exception {
+        String userId = loginResponsePacket.getUserId();
+        String userName = loginResponsePacket.getUserName();
 
         // 处理登录
         if (loginResponsePacket.isSuccess()) {
-            LoginUtil.markAsLogin(channelHandlerContext.channel());
-            System.out.println(new Date() + ": 客户端登录成功");
+            System.out.println("[" + userName + "]登录成功，userId 为: " + loginResponsePacket.getUserId());
+            SessionUtil.bindSession(new Session(userId, userName), channelHandlerContext.channel());
         } else {
             System.out.println(new Date() + ": 客户端登录失败，原因：" + loginResponsePacket.getReason());
         }
