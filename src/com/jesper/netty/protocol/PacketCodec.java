@@ -1,13 +1,7 @@
 package com.jesper.netty.protocol;
 
-import com.jesper.netty.protocol.request.CreateGroupRequestPacket;
-import com.jesper.netty.protocol.request.LoginRequestPacket;
-import com.jesper.netty.protocol.request.LogoutRequestPacket;
-import com.jesper.netty.protocol.request.MessageRequestPacket;
-import com.jesper.netty.protocol.response.CreateGroupResponsePacket;
-import com.jesper.netty.protocol.response.LoginResponsePacket;
-import com.jesper.netty.protocol.response.LogoutResponsePacket;
-import com.jesper.netty.protocol.response.MessageResponsePacket;
+import com.jesper.netty.protocol.request.*;
+import com.jesper.netty.protocol.response.*;
 import com.jesper.netty.serialize.Serializer;
 import com.jesper.netty.serialize.impl.JSONSerializer;
 import io.netty.buffer.ByteBuf;
@@ -37,6 +31,12 @@ public class PacketCodec {
         packetTypeMap.put(LOGOUT_RESPONSE, LogoutResponsePacket.class);
         packetTypeMap.put(CREATE_GROUP_REQUEST, CreateGroupRequestPacket.class);
         packetTypeMap.put(CREATE_GROUP_RESPONSE, CreateGroupResponsePacket.class);
+        packetTypeMap.put(JOIN_GROUP_REQUEST, JoinGroupRequestPacket.class);
+        packetTypeMap.put(JOIN_GROUP_RESPONSE, JoinGroupResponsePacket.class);
+        packetTypeMap.put(QUIT_GROUP_REQUEST, QuitGroupRequestPacket.class);
+        packetTypeMap.put(QUIT_GROUP_RESPONSE, QuitGroupResponsePacket.class);
+        packetTypeMap.put(LIST_GROUP_MEMBERS_REQUEST, ListGroupMembersRequestPacket.class);
+        packetTypeMap.put(LIST_GROUP_MEMBERS_RESPONSE, ListGroupMembersResponsePacket.class);
 
         serializerMap = new HashMap<>();
         JSONSerializer serializer = new JSONSerializer();
