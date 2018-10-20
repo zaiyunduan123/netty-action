@@ -75,17 +75,18 @@ public class NettyClient {
 
         new Thread(() -> {
             while (!Thread.interrupted()) {
+                // 还没登录
                 if (!SessionUtil.hasLogin(channel)) {
                     System.out.print("输入用户名登录: ");
                     String username = sc.nextLine();
                     loginRequestPacket.setUserName(username);
-
                     // 密码使用默认的
-                    loginRequestPacket.setPassword("pwd");
+                    loginRequestPacket.setPassword("abc");
 
                     // 发送登录数据包
                     channel.writeAndFlush(loginRequestPacket);
                     waitForLoginResponse();
+                 // 已登录
                 } else {
                     String toUserId = sc.next();
                     String message = sc.next();
@@ -94,6 +95,10 @@ public class NettyClient {
             }
         }).start();
     }
+
+    /**
+     * 登录逻辑的最大处理时间
+     */
     private static void waitForLoginResponse() {
         try {
             Thread.sleep(1000);

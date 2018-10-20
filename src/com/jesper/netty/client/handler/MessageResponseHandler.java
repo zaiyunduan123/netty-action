@@ -6,7 +6,17 @@ import io.netty.channel.SimpleChannelInboundHandler;
 
 import java.util.Date;
 
+/**
+ * 客户端接受消息后的处理
+ *
+ */
 public class MessageResponseHandler extends SimpleChannelInboundHandler<MessageResponsePacket> {
+    /**
+     * 客户端接收到信息直接打印
+     * @param channelHandlerContext
+     * @param messageResponsePacket
+     * @throws Exception
+     */
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, MessageResponsePacket messageResponsePacket) throws Exception {
         String fromUserId = messageResponsePacket.getFromUserId();

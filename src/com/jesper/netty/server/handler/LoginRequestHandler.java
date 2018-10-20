@@ -27,7 +27,6 @@ public class LoginRequestHandler extends SimpleChannelInboundHandler<LoginReques
             System.out.println("[" + loginRequestPacket.getUserName() + "]登录成功!");
             // 登陆成功后加标记
             SessionUtil.bindSession(new Session(userId, loginRequestPacket.getUserName()), channelHandlerContext.channel());
-
         } else {
             loginResponsePacket.setReason("账号密码校验失败");
             loginResponsePacket.setSuccess(false);
@@ -47,6 +46,7 @@ public class LoginRequestHandler extends SimpleChannelInboundHandler<LoginReques
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+        // 用户断线之后取消绑定
         SessionUtil.unBindSession(ctx.channel());
     }
 }

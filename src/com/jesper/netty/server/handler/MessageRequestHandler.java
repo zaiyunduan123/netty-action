@@ -10,6 +10,12 @@ import io.netty.channel.SimpleChannelInboundHandler;
 
 import java.util.Date;
 
+/**
+ * 服务端接受消息后的处理
+ *
+ * A 发消息给 B，首先需要将带有 B 标识的消息数据包发送到服务器，然后服务器从消息数据包中拿到 B 的标识，找到对应的 B 的连接，将消息发送给 B。
+ * 服务端只是转发
+ */
 public class MessageRequestHandler extends SimpleChannelInboundHandler<MessageRequestPacket> {
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, MessageRequestPacket messageRequestPacket) throws Exception {
@@ -22,7 +28,7 @@ public class MessageRequestHandler extends SimpleChannelInboundHandler<MessageRe
         messageResponsePacket.setFromUserName(session.getUserName());
         messageResponsePacket.setMessage(messageRequestPacket.getMessage());
 
-        // 3.拿到消息接收方的 channel
+        // 3.根据传过来的用户id拿到消息接收方的channel
         Channel toUserChannel = SessionUtil.getChannel(messageRequestPacket.getToUserId());
 
         // 4.将消息发送给消息接收方
