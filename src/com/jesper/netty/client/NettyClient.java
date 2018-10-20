@@ -1,5 +1,7 @@
 package com.jesper.netty.client;
 
+import com.jesper.netty.client.console.ConsoleCommandManager;
+import com.jesper.netty.client.console.LoginConsoleCommand;
 import com.jesper.netty.client.handler.LoginResponseHandler;
 import com.jesper.netty.client.handler.MessageResponseHandler;
 import com.jesper.netty.codec.PacketDecoder;
@@ -71,38 +73,20 @@ public class NettyClient {
     //在客户端连接上服务端之后启动控制台线程，从控制台获取消息，然后发送至服务端
     public static void startConsoleThread(Channel channel) {
         Scanner sc = new Scanner(System.in);
-        LoginRequestPacket loginRequestPacket = new LoginRequestPacket();
+        ConsoleCommandManager consoleCommandManager = new ConsoleCommandManager();
+        LoginConsoleCommand loginConsoleCommand = new LoginConsoleCommand();
 
         new Thread(() -> {
             while (!Thread.interrupted()) {
                 // 还没登录
                 if (!SessionUtil.hasLogin(channel)) {
-                    System.out.print("输入用户名登录: ");
-                    String username = sc.nextLine();
-                    loginRequestPacket.setUserName(username);
-                    // 密码使用默认的
-                    loginRequestPacket.setPassword("abc");
-
-                    // 发送登录数据包
-                    channel.writeAndFlush(loginRequestPacket);
-                    waitForLoginResponse();
+                    loginConsoleCommand.exec(sc, channel);
                  // 已登录
                 } else {
-                    String toUserId = sc.next();
-                    String message = sc.next();
-                    channel.writeAndFlush(new MessageRequestPacket(toUserId, message));
+                    consoleCommandManager.exec(sc, channel);
                 }
             }
         }).start();
     }
 
-    /**
-     * 登录逻辑的最大处理时间
-     */
-    private static void waitForLoginResponse() {
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException ignored) {
-        }
-    }
 }
