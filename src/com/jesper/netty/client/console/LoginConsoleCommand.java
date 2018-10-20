@@ -11,7 +11,7 @@ public class LoginConsoleCommand implements ConsoleCommand {
     public void exec(Scanner scanner, Channel channel) {
         LoginRequestPacket loginRequestPacket = new LoginRequestPacket();
 
-        System.out.println("输入用户名登录：");
+        System.out.print("输入用户名登录：");
         loginRequestPacket.setUserName(scanner.nextLine());
         loginRequestPacket.setPassword("abc");
 

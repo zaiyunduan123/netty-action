@@ -1,8 +1,12 @@
 package com.jesper.netty.protocol;
 
+import com.jesper.netty.protocol.request.CreateGroupRequestPacket;
 import com.jesper.netty.protocol.request.LoginRequestPacket;
+import com.jesper.netty.protocol.request.LogoutRequestPacket;
 import com.jesper.netty.protocol.request.MessageRequestPacket;
+import com.jesper.netty.protocol.response.CreateGroupResponsePacket;
 import com.jesper.netty.protocol.response.LoginResponsePacket;
+import com.jesper.netty.protocol.response.LogoutResponsePacket;
 import com.jesper.netty.protocol.response.MessageResponsePacket;
 import com.jesper.netty.serialize.Serializer;
 import com.jesper.netty.serialize.impl.JSONSerializer;
@@ -29,6 +33,10 @@ public class PacketCodec {
         packetTypeMap.put(LOGIN_RESPONSE, LoginResponsePacket.class);
         packetTypeMap.put(MESSAGE_REQUEST, MessageRequestPacket.class);
         packetTypeMap.put(MESSAGE_RESPONSE, MessageResponsePacket.class);
+        packetTypeMap.put(LOGOUT_REQUEST, LogoutRequestPacket.class);
+        packetTypeMap.put(LOGOUT_RESPONSE, LogoutResponsePacket.class);
+        packetTypeMap.put(CREATE_GROUP_REQUEST, CreateGroupRequestPacket.class);
+        packetTypeMap.put(CREATE_GROUP_RESPONSE, CreateGroupResponsePacket.class);
 
         serializerMap = new HashMap<>();
         JSONSerializer serializer = new JSONSerializer();

@@ -2,7 +2,9 @@ package com.jesper.netty.client;
 
 import com.jesper.netty.client.console.ConsoleCommandManager;
 import com.jesper.netty.client.console.LoginConsoleCommand;
+import com.jesper.netty.client.handler.CreateGroupResponseHandler;
 import com.jesper.netty.client.handler.LoginResponseHandler;
+import com.jesper.netty.client.handler.LogoutResponseHandler;
 import com.jesper.netty.client.handler.MessageResponseHandler;
 import com.jesper.netty.codec.PacketDecoder;
 import com.jesper.netty.codec.PacketEncoder;
@@ -42,7 +44,9 @@ public class NettyClient {
                         ch.pipeline().addLast(new Spliter());
                         ch.pipeline().addLast(new PacketDecoder());
                         ch.pipeline().addLast(new LoginResponseHandler());
+                        ch.pipeline().addLast(new LogoutResponseHandler());
                         ch.pipeline().addLast(new MessageResponseHandler());
+                        ch.pipeline().addLast(new CreateGroupResponseHandler());
                         ch.pipeline().addLast(new PacketEncoder());
                     }
                 });
@@ -72,10 +76,9 @@ public class NettyClient {
 
     //在客户端连接上服务端之后启动控制台线程，从控制台获取消息，然后发送至服务端
     public static void startConsoleThread(Channel channel) {
-        Scanner sc = new Scanner(System.in);
         ConsoleCommandManager consoleCommandManager = new ConsoleCommandManager();
         LoginConsoleCommand loginConsoleCommand = new LoginConsoleCommand();
-
+        Scanner sc = new Scanner(System.in);
         new Thread(() -> {
             while (!Thread.interrupted()) {
                 // 还没登录

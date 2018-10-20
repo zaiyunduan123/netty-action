@@ -3,12 +3,16 @@ package com.jesper.netty.util;
 import com.jesper.netty.attibute.Attributes;
 import com.jesper.netty.session.Session;
 import io.netty.channel.Channel;
+import io.netty.channel.group.ChannelGroup;
+
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class SessionUtil {
     // userId->channel 的映射
     private static final Map<String, Channel> userIdChannelMap = new ConcurrentHashMap<>();
+
+    private static final Map<String, ChannelGroup> groupIdChannelGroupMap = new ConcurrentHashMap<>();
 
     /**
      * 保存useId->channel的映射关系，并且给channel附上一个属性,该属性就是当前用户的session
@@ -26,8 +30,10 @@ public class SessionUtil {
      */
     public static void unBindSession(Channel channel) {
         if (hasLogin(channel)) {
+            Session session = getSession(channel);
             userIdChannelMap.remove(getSession(channel).getUserId());
             channel.attr(Attributes.SESSION).set(null);
+            System.out.println(session + " 退出登录!");
         }
     }
 
@@ -35,7 +41,7 @@ public class SessionUtil {
      * 判断用户是否登录只需要判断当前是否有用户的会话信息
      */
     public static boolean hasLogin(Channel channel) {
-        return channel.hasAttr(Attributes.SESSION);
+        return getSession(channel) != null;
     }
 
     /**

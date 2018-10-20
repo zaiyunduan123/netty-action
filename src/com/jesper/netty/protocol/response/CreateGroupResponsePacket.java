@@ -2,9 +2,7 @@ package com.jesper.netty.protocol.response;
 
 import com.jesper.netty.protocol.Packet;
 import lombok.Data;
-
 import java.util.List;
-
 import static com.jesper.netty.protocol.command.Command.CREATE_GROUP_RESPONSE;
 
 @Data
