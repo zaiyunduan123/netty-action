@@ -12,6 +12,7 @@ public class SessionUtil {
     // userId->channel 的映射
     private static final Map<String, Channel> userIdChannelMap = new ConcurrentHashMap<>();
 
+    // groupId ->channelGroup 的映射
     private static final Map<String, ChannelGroup> groupIdChannelGroupMap = new ConcurrentHashMap<>();
 
     /**
@@ -56,5 +57,23 @@ public class SessionUtil {
 
     public static Channel getChannel(String userId) {
         return userIdChannelMap.get(userId);
+    }
+
+    /**
+     * 保存groupId ->channelGroup 的映射
+     * @param groudId
+     * @param channelGroup
+     */
+    public static void bindChannelGroup(String groudId, ChannelGroup channelGroup){
+        groupIdChannelGroupMap.put(groudId, channelGroup);
+    }
+
+    /**
+     * 删除groupId ->channelGroup 的映射
+     * @param groupId
+     * @return
+     */
+    public static ChannelGroup getChannelGroup(String groupId){
+        return groupIdChannelGroupMap.get(groupId);
     }
 }

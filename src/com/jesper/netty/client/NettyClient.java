@@ -2,10 +2,7 @@ package com.jesper.netty.client;
 
 import com.jesper.netty.client.console.ConsoleCommandManager;
 import com.jesper.netty.client.console.LoginConsoleCommand;
-import com.jesper.netty.client.handler.CreateGroupResponseHandler;
-import com.jesper.netty.client.handler.LoginResponseHandler;
-import com.jesper.netty.client.handler.LogoutResponseHandler;
-import com.jesper.netty.client.handler.MessageResponseHandler;
+import com.jesper.netty.client.handler.*;
 import com.jesper.netty.codec.PacketDecoder;
 import com.jesper.netty.codec.PacketEncoder;
 import com.jesper.netty.codec.Spliter;
@@ -43,10 +40,20 @@ public class NettyClient {
                     public void initChannel(SocketChannel ch) {
                         ch.pipeline().addLast(new Spliter());
                         ch.pipeline().addLast(new PacketDecoder());
+                        // 登录响应处理器
                         ch.pipeline().addLast(new LoginResponseHandler());
-                        ch.pipeline().addLast(new LogoutResponseHandler());
+                        // 收消息处理器
                         ch.pipeline().addLast(new MessageResponseHandler());
+                        // 创建群响应处理器
                         ch.pipeline().addLast(new CreateGroupResponseHandler());
+                        // 加群响应处理器
+                        ch.pipeline().addLast(new JoinGroupResponseHandler());
+                        // 退群响应处理器
+                        ch.pipeline().addLast(new QuitGroupResponseHandler());
+                        // 获取群成员响应处理器
+                        ch.pipeline().addLast(new ListGroupMembersResponseHandler());
+                        // 登出响应处理器
+                        ch.pipeline().addLast(new LogoutResponseHandler());
                         ch.pipeline().addLast(new PacketEncoder());
                     }
                 });
