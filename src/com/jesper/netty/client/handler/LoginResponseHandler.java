@@ -1,6 +1,5 @@
 package com.jesper.netty.client.handler;
 
-import com.jesper.netty.protocol.request.LoginRequestPacket;
 import com.jesper.netty.protocol.response.LoginResponsePacket;
 import com.jesper.netty.session.Session;
 import com.jesper.netty.util.SessionUtil;
@@ -8,7 +7,6 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
 import java.util.Date;
-import java.util.UUID;
 
 public class LoginResponseHandler extends SimpleChannelInboundHandler<LoginResponsePacket> {
 

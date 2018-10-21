@@ -4,13 +4,20 @@ import com.jesper.netty.protocol.request.LoginRequestPacket;
 import com.jesper.netty.protocol.response.LoginResponsePacket;
 import com.jesper.netty.session.Session;
 import com.jesper.netty.util.SessionUtil;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
 import java.util.Date;
 import java.util.UUID;
 
+@ChannelHandler.Sharable
 public class LoginRequestHandler extends SimpleChannelInboundHandler<LoginRequestPacket> {
+
+    public static final LoginRequestHandler INSTANCE = new LoginRequestHandler();
+
+    protected LoginRequestHandler() {
+    }
 
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, LoginRequestPacket loginRequestPacket) throws Exception {

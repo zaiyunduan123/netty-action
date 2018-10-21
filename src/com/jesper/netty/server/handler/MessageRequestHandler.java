@@ -5,6 +5,7 @@ import com.jesper.netty.protocol.response.MessageResponsePacket;
 import com.jesper.netty.session.Session;
 import com.jesper.netty.util.SessionUtil;
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
@@ -16,7 +17,13 @@ import java.util.Date;
  * A 发消息给 B，首先需要将带有 B 标识的消息数据包发送到服务器，然后服务器从消息数据包中拿到 B 的标识，找到对应的 B 的连接，将消息发送给 B。
  * 服务端只是转发
  */
+@ChannelHandler.Sharable
 public class MessageRequestHandler extends SimpleChannelInboundHandler<MessageRequestPacket> {
+    public static final MessageRequestHandler INSTANCE = new MessageRequestHandler();
+
+    private MessageRequestHandler() {
+
+    }
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, MessageRequestPacket messageRequestPacket) throws Exception {
         // 1.拿到消息发送方的会话信息

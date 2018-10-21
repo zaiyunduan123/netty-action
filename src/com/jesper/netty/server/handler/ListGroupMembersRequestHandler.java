@@ -5,14 +5,20 @@ import com.jesper.netty.protocol.response.ListGroupMembersResponsePacket;
 import com.jesper.netty.session.Session;
 import com.jesper.netty.util.SessionUtil;
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.group.ChannelGroup;
 
 import java.util.ArrayList;
 
+@ChannelHandler.Sharable
 public class ListGroupMembersRequestHandler extends SimpleChannelInboundHandler<ListGroupMembersRequestPacket> {
+    public static final ListGroupMembersRequestHandler INSTANCE = new ListGroupMembersRequestHandler();
 
+    private ListGroupMembersRequestHandler() {
+
+    }
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, ListGroupMembersRequestPacket requestPacket) throws Exception {
         // 1. 获取群的 channelGroup

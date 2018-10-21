@@ -3,12 +3,19 @@ package com.jesper.netty.server.handler;
 import com.jesper.netty.protocol.request.JoinGroupRequestPacket;
 import com.jesper.netty.protocol.response.JoinGroupResponsePacket;
 import com.jesper.netty.util.SessionUtil;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.group.ChannelGroup;
 
-public class JoinGroupRequestHandler extends SimpleChannelInboundHandler<JoinGroupRequestPacket> {
 
+@ChannelHandler.Sharable
+public class JoinGroupRequestHandler extends SimpleChannelInboundHandler<JoinGroupRequestPacket> {
+    public static final JoinGroupRequestHandler INSTANCE = new JoinGroupRequestHandler();
+
+    private JoinGroupRequestHandler() {
+
+    }
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, JoinGroupRequestPacket joinGroupRequestPacket) throws Exception {
          // 1. 获取群对应的channelGroup， 然后将当前用户 channel 添加进去
