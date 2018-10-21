@@ -4,6 +4,7 @@ import com.jesper.netty.codec.PacketCodecHandler;
 import com.jesper.netty.codec.PacketDecoder;
 import com.jesper.netty.codec.PacketEncoder;
 import com.jesper.netty.codec.Spliter;
+import com.jesper.netty.handler.IMIdleStateHandler;
 import com.jesper.netty.server.handler.*;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelInitializer;
@@ -33,9 +34,14 @@ public class NettyServer {
                 .childOption(ChannelOption.TCP_NODELAY, true)
                 .childHandler(new ChannelInitializer<NioSocketChannel>() {
                     protected void initChannel(NioSocketChannel ch) {
+                        // 空闲检测
+                        ch.pipeline().addLast(new IMIdleStateHandler());
                         ch.pipeline().addLast(new Spliter());// 维持每个 channel 当前读到的数据，是有状态的
                         ch.pipeline().addLast(PacketCodecHandler.INSATNCE); // MessageToMessageCodec合并编解码
                         ch.pipeline().addLast(LoginRequestHandler.INSTANCE);
+                        // 服务端回复心跳,由于 HeartBeatRequestHandler 的处理其实是无需登录的，所以放置在 AuthHandler 前面
+                        ch.pipeline().addLast(HeartBeatRequestHandler.INSTANCE);
+
                         ch.pipeline().addLast(AuthHandler.INSTANCE);
                         ch.pipeline().addLast(IMHandler.INSTANCE);
                     }

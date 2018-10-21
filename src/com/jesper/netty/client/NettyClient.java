@@ -6,6 +6,7 @@ import com.jesper.netty.client.handler.*;
 import com.jesper.netty.codec.PacketDecoder;
 import com.jesper.netty.codec.PacketEncoder;
 import com.jesper.netty.codec.Spliter;
+import com.jesper.netty.handler.IMIdleStateHandler;
 import com.jesper.netty.protocol.request.LoginRequestPacket;
 import com.jesper.netty.protocol.request.MessageRequestPacket;
 import com.jesper.netty.util.SessionUtil;
@@ -38,6 +39,9 @@ public class NettyClient {
                 .handler(new ChannelInitializer<SocketChannel>() {
                     @Override
                     public void initChannel(SocketChannel ch) {
+                        // 空闲检测
+                        ch.pipeline().addLast(new IMIdleStateHandler());
+
                         ch.pipeline().addLast(new Spliter());
                         ch.pipeline().addLast(new PacketDecoder());
                         // 登录响应处理器
@@ -57,6 +61,8 @@ public class NettyClient {
                         // 登出响应处理器
                         ch.pipeline().addLast(new LogoutResponseHandler());
                         ch.pipeline().addLast(new PacketEncoder());
+                        // 心跳定时器
+                        ch.pipeline().addLast(new HeartBeatTimerHandler());
                     }
                 });
 
