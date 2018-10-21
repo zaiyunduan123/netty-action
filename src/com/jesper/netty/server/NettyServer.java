@@ -33,8 +33,8 @@ public class NettyServer {
                 .childOption(ChannelOption.TCP_NODELAY, true)
                 .childHandler(new ChannelInitializer<NioSocketChannel>() {
                     protected void initChannel(NioSocketChannel ch) {
-                        ch.pipeline().addLast(new Spliter());
-                        ch.pipeline().addLast(PacketCodecHandler.INSATNCE);
+                        ch.pipeline().addLast(new Spliter());// 维持每个 channel 当前读到的数据，是有状态的
+                        ch.pipeline().addLast(PacketCodecHandler.INSATNCE); // MessageToMessageCodec合并编解码
                         ch.pipeline().addLast(LoginRequestHandler.INSTANCE);
                         ch.pipeline().addLast(AuthHandler.INSTANCE);
                         ch.pipeline().addLast(IMHandler.INSTANCE);

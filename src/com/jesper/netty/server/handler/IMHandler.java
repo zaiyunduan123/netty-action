@@ -10,6 +10,10 @@ import java.util.Map;
 
 import static com.jesper.netty.protocol.command.Command.*;
 
+/**
+ * 缩短事件传播路径
+ * 压缩 handler - 合并平行 handler
+ */
 @ChannelHandler.Sharable
 public class IMHandler extends SimpleChannelInboundHandler<Packet>{
 
@@ -29,8 +33,14 @@ public class IMHandler extends SimpleChannelInboundHandler<Packet>{
         handlerMap.put(LOGOUT_REQUEST, LogoutRequestHandler.INSTANCE);
     }
 
+    /**
+     * channelRead0内部会做指令类型转换，最终调用到每个指令 handler 的 channelRead0() 方法
+     * @param channelHandlerContext
+     * @param packet
+     * @throws Exception
+     */
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, Packet packet) throws Exception {
-
+        handlerMap.get(packet.getCommand()).channelRead(channelHandlerContext, packet);
     }
 }
