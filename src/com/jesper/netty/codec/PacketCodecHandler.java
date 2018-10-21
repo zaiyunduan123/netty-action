@@ -8,7 +8,9 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToMessageCodec;
 
 import java.util.List;
-
+/**
+ * MessageToMessageCodec可以让我们的编解码操作放到一个类里面去实现，定义一个 PacketCodecHandler,他是一个无状态的 handler，因此可以使用单例模式来实现。
+ */
 @ChannelHandler.Sharable
 public class PacketCodecHandler extends MessageToMessageCodec<ByteBuf, Packet> {
 
