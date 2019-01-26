@@ -1,11 +1,9 @@
 
-## netty学习代码
-下面是总结的使用 Netty 不使用 JDK 原生 NIO 的原因
 
-1. 使用 JDK 自带的NIO需要了解太多的概念，编程复杂
-2. Netty 底层 IO 模型随意切换，而这一切只需要做微小的改动，改改参数，Netty可以直接从 NIO 模型变身为 IO 模型
-3. Netty 自带的拆包解包，异常检测等机制让你从NIO的繁重细节中脱离出来，只需要关心业务逻辑
-4. Netty 解决了 JDK 的很多包括空轮询在内的 Bug
-5. Netty 底层对线程，selector 做了很多细小的优化，精心设计的 reactor 线程模型做到非常高效的并发处理
-6. 自带各种协议栈，处理任何一种通用协议都几乎不用亲自动手
-7. Netty 已经历各大 RPC 框架，消息中间件，分布式通信中间件线上的广泛验证，健壮性无比强大
+
+![netty绑定端口启动服务源码分析](https://github.com/zaiyunduan123/netty-action/blob/master/doc/netty%E7%BB%91%E5%AE%9A%E7%AB%AF%E5%8F%A3%E5%90%AF%E5%8A%A8%E6%9C%8D%E5%8A%A1%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90.md)
+
+![NIO的epoll空轮询bug](https://www.cnblogs.com/JAYIT/p/8241634.html)
+
+![对于 Netty ByteBuf 的零拷贝(Zero Copy) 的理解](https://www.cnblogs.com/xys1228/p/6088805.html)
+
