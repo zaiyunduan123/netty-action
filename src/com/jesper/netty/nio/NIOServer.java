@@ -11,6 +11,9 @@ import java.nio.charset.Charset;
 import java.util.Iterator;
 import java.util.Set;
 
+/**
+ * NIO 模型中，把这么多 while 死循环变成一个死循环，这个死循环由一个线程控制， 这就是 NIO 模型中 selector 的作用，一条连接来了之后，现在不创建一个 while 死循环去监听是否有数据可读了，而是直接把这条连接注册到 selector 上，然后，通过检查这个 selector，就可以批量监测出有数据可读的连接，进而读取数据。
+ */
 public class NIOServer {
 
     public static void main(String[] args) throws IOException {
